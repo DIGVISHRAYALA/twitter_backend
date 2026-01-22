@@ -1,34 +1,51 @@
-const mongoose = require('mongoose');
 
-const PostSchema = new mongoose.Schema({
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+
+const Post = sequelize.define('Post', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+
     username: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
-    postContent: {
-        type: String,
-        required: true
-    },
-    profilepic: {
-        type: String,
-        required: true
-    },
-    postImage: {
-        type: String,
-    },
-    totalLikes: {
-        type: Number,
-        default: 0
-    },
-    totalTweets: {
-        type: Number,
-        default: 0
-    },
-    createdAtDate: {
-        type:Date,
-        default: Date.now,
-    }
-})
 
-const Post = mongoose.model('Post', PostSchema)
-module.exports = Post
+    postContent: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+
+    profilepic: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    postImage: {
+        type: DataTypes.TEXT,
+        allowNull: true
+    },
+
+    totalLikes: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+
+    totalTweets: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0
+    },
+
+    createdAtDate: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW
+    }
+}, {
+    tableName: 'posts',
+    timestamps: false
+});
+
+module.exports = Post;

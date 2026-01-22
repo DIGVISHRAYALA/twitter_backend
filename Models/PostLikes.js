@@ -1,15 +1,34 @@
-const mongoose = require('mongoose');
 
-const PostLikeSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: true
+
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+
+const PostLikes = sequelize.define('PostLikes', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    postId: {
-        type: String,
-        required: true
-    }
-})
 
-const PostLikes = mongoose.model('PostLikes', PostLikeSchema)
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+
+    postId: {
+        type: DataTypes.INTEGER,   // FK to posts.id
+        allowNull: false
+    }
+}, {
+    tableName: 'post_likes',
+    timestamps: false,
+
+    indexes: [
+        {
+            unique: true,
+            fields: ['username', 'postId']
+        }
+    ]
+});
+
 module.exports = PostLikes;

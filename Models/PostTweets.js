@@ -1,19 +1,31 @@
-const mongoose = require('mongoose');
 
-const PostTweetSchema = new mongoose.Schema({
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+
+const PostTweets = sequelize.define('PostTweets', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+
     username: {
-        type: String,
-        required: true
+        type: DataTypes.STRING,
+        allowNull: false
     },
-    postId: {
-        type: String,
-        required: true
-    },
-    tweet: {
-        type: String,
-        required: true
-    }
-})
 
-const PostTweets = mongoose.model('PostTweets', PostTweetSchema)
+    postId: {
+        type: DataTypes.INTEGER,   // FK → posts.id
+        allowNull: false
+    },
+
+    tweet: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    }
+}, {
+    tableName: 'post_tweets',
+    timestamps: true
+});
+
 module.exports = PostTweets;
